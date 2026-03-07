@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>State Capacity Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="site-wrapper">
+        <nav class="main-nav">
+            <div class="nav-container">
+                <div class="logo"><span class="logo-text">THE 7 BILLION DOLLAR BRAIN</span></div>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="doctrine.html">The Code</a></li>
+                    <li><a href="index.html#inner-circle">Inner Circle</a></li>
+                    <li><a href="dashboard.html" class="active">State Capacity</a></li>
+                    <li><a href="apply.html" class="nav-cta">Apply</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <section class="page-header">
+            <h1>Structural Density Dashboard</h1>
+            <p class="header-subtitle">Each state: 10,000 capacity. Equal allocation.</p>
+        </section>
+
+        <section class="dashboard">
+            <div class="dashboard-container">
+                <div class="dashboard-table-wrapper">
+                    <table class="dashboard-table" id="state-capacity-table">
+                        <thead><tr><th>State</th><th>Members</th><th>Capacity</th><th>Remaining</th></tr></thead>
+                        <tbody id="table-body"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <footer class="site-footer"><div class="footer-bottom"><p>© 2024 The 7 Billion Dollar Brain™</p></div></footer>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
