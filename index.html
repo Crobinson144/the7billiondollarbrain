@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The 7 Billion Dollar Brain | Private Learning Institution</title>
+    <base href="/">
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,9 +16,9 @@
         <nav class="main-nav">
             <div class="nav-container">
                 <div class="logo">
-    <img src="../images/website-2-org/gold-brain-icon.png" alt="The 7 Billion Dollar Brain" class="brain-icon">
-    <span class="logo-text">THE 7 BILLION DOLLAR BRAIN</span>
-</div>
+                    <img src="/images/gold-brain-icon.png" alt="The 7 Billion Dollar Brain" class="brain-icon">
+                    <span class="logo-text">THE 7 BILLION DOLLAR BRAIN</span>
+                </div>
                 <ul class="nav-links">
                     <li><a href="index.html" class="active">Home</a></li>
                     <li><a href="doctrine.html">The Code</a></li>
@@ -28,21 +29,16 @@
             </div>
         </nav>
 
-        <!-- Hero -->
-        <!-- Hero -->
-<section class="hero-institutional">
-    <div class="hero-content">
-        <!-- Motion logo animation -->
-        <video class="hero-video" autoplay loop muted playsinline>
-            <source src="/videos/teaser/teaser-final.mp4" type="video/mp4">
-            <!-- Fallback static logo if video doesn't play -->
-            <img src="/images/gold-brain-icon.png" alt="The 7 Billion Dollar Brain" class="hero-icon">
-        </video>
-        
-        <h1>The 7 Billion Dollar Brain<sup>™</sup></h1>
-        <p class="hero-subtitle">A Private Learning Institution for Generational Infrastructure</p>
-    </div>
-</section>
+        <!-- Hero Section with Video -->
+        <section class="hero-institutional">
+            <div class="hero-content">
+                <video class="hero-video" autoplay muted loop playsinline>
+                    <source src="/videos/teaser/teaser-final.mp4" type="video/mp4">
+                </video>
+                <h1>The 7 Billion Dollar Brain<sup>™</sup></h1>
+                <p class="hero-subtitle">A Private Learning Institution for Generational Infrastructure</p>
+            </div>
+        </section>
 
         <!-- Doctrine Preview -->
         <section class="doctrine-preview">
@@ -51,13 +47,41 @@
                 <p class="section-intro">Seven principles. One structure.</p>
             </div>
             <div class="doctrine-grid">
-                <div class="doctrine-card"><span class="card-number">1</span><h3>Community</h3><p>Nothing is built alone.</p></div>
-                <div class="doctrine-card"><span class="card-number">2</span><h3>Clarity</h3><p>Clarity before action.</p></div>
-                <div class="doctrine-card"><span class="card-number">3</span><h3>Consistency</h3><p>Wealth is disciplined repetition.</p></div>
-                <div class="doctrine-card"><span class="card-number">4</span><h3>Competence</h3><p>Inheritance without competence collapses.</p></div>
-                <div class="doctrine-card"><span class="card-number">5</span><h3>Coordination</h3><p>Individual success is fragile.</p></div>
-                <div class="doctrine-card"><span class="card-number">6</span><h3>Contribution</h3><p>Wealth without contribution corrupts.</p></div>
-                <div class="doctrine-card"><span class="card-number">7</span><h3>Continuity</h3><p>Can it outlive you?</p></div>
+                <div class="doctrine-card">
+                    <span class="card-number">1</span>
+                    <h3>Community</h3>
+                    <p>Nothing is built alone.</p>
+                </div>
+                <div class="doctrine-card">
+                    <span class="card-number">2</span>
+                    <h3>Clarity</h3>
+                    <p>Clarity before action.</p>
+                </div>
+                <div class="doctrine-card">
+                    <span class="card-number">3</span>
+                    <h3>Consistency</h3>
+                    <p>Wealth is disciplined repetition.</p>
+                </div>
+                <div class="doctrine-card">
+                    <span class="card-number">4</span>
+                    <h3>Competence</h3>
+                    <p>Inheritance without competence collapses.</p>
+                </div>
+                <div class="doctrine-card">
+                    <span class="card-number">5</span>
+                    <h3>Coordination</h3>
+                    <p>Individual success is fragile.</p>
+                </div>
+                <div class="doctrine-card">
+                    <span class="card-number">6</span>
+                    <h3>Contribution</h3>
+                    <p>Wealth without contribution corrupts.</p>
+                </div>
+                <div class="doctrine-card">
+                    <span class="card-number">7</span>
+                    <h3>Continuity</h3>
+                    <p>Can it outlive you?</p>
+                </div>
             </div>
         </section>
 
@@ -90,5 +114,4 @@
     </div>
     <script src="script.js"></script>
 </body>
-
 </html>
