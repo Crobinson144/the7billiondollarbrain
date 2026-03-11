@@ -35,13 +35,13 @@ h2 {
 h3 {
     font-size: 1.5rem;
     margin-bottom: 1rem;
-    color: #B69B7C;
+    color: #EEB45E;
 }
 
 /* Navigation */
 .main-nav {
     background-color: #0B1A2F;
-    border-bottom: 1px solid rgba(182,155,124,0.2);
+    border-bottom: 1px solid rgba(238, 180, 94, 0.2);
     position: sticky;
     top: 0;
     z-index: 100;
@@ -54,7 +54,6 @@ h3 {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    min-height: 80px;
 }
 
 .logo {
@@ -64,18 +63,16 @@ h3 {
 }
 
 .brain-icon {
-    height: 60px;
+    height: 50px;
     width: auto;
-    display: block;
 }
 
 .logo-text {
     font-family: 'Playfair Display', serif;
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     font-weight: 600;
     color: #FFFFFF;
     letter-spacing: 1px;
-    line-height: 1.2;
 }
 
 .nav-links {
@@ -94,19 +91,19 @@ h3 {
 
 .nav-links a:hover,
 .nav-links a.active {
-    color: #B69B7C;
+    color: #EEB45E;
 }
 
 .nav-cta {
     padding: 0.5rem 1.5rem;
-    background-color: #B69B7C;
-    color: #0B1A2F !important;
+    background-color: #EEB45E;
+    color: #1F160D !important;
     border-radius: 0;
     font-weight: 600;
 }
 
 .nav-cta:hover {
-    background-color: #C4AB8F;
+    background-color: #C98545;
 }
 
 /* Hero Section */
@@ -128,30 +125,18 @@ h3 {
     justify-content: center;
 }
 
-/* Hero video styles */
 .hero-video {
     max-width: 400px;
     width: 100%;
     margin: 0 auto 2rem auto;
     display: block;
-}
-
-/* Fallback static logo */
-.hero-icon {
-    max-width: 400px;
-    width: 100%;
-    margin: 0 auto 2rem auto;
-    display: block;
-}
-
-/* Hide fallback if video plays */
-.hero-video:not(:blank) + .hero-icon {
-    display: none;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
 
 .hero-subtitle {
     font-size: 1.3rem;
-    color: #B69B7C;
+    color: #EEB45E;
     max-width: 700px;
     margin: 1rem auto 0;
 }
@@ -159,7 +144,7 @@ h3 {
 /* Doctrine Preview */
 .doctrine-preview {
     padding: 5rem 0;
-    border-bottom: 1px solid rgba(182,155,124,0.1);
+    border-bottom: 1px solid rgba(238, 180, 94, 0.1);
 }
 
 .section-header {
@@ -169,7 +154,7 @@ h3 {
 
 .section-intro {
     font-size: 1.2rem;
-    color: #B69B7C;
+    color: #EEB45E;
 }
 
 .doctrine-grid {
@@ -183,13 +168,13 @@ h3 {
 .doctrine-card {
     padding: 2rem;
     background-color: rgba(255,255,255,0.02);
-    border: 1px solid rgba(182,155,124,0.2);
+    border: 1px solid rgba(238, 180, 94, 0.2);
     text-align: center;
     transition: all 0.3s;
 }
 
 .doctrine-card:hover {
-    border-color: #B69B7C;
+    border-color: #EEB45E;
     transform: translateY(-2px);
 }
 
@@ -199,8 +184,8 @@ h3 {
     height: 40px;
     line-height: 40px;
     border-radius: 50%;
-    border: 1px solid #B69B7C;
-    color: #B69B7C;
+    border: 1px solid #EEB45E;
+    color: #EEB45E;
     margin-bottom: 1rem;
 }
 
@@ -217,7 +202,7 @@ h3 {
 /* Inner Circle */
 .inner-circle {
     padding: 5rem 0;
-    border-bottom: 1px solid rgba(182,155,124,0.1);
+    border-bottom: 1px solid rgba(238, 180, 94, 0.1);
 }
 
 .inner-circle-content {
@@ -238,7 +223,7 @@ h3 {
 
 .feature-list li::before {
     content: "—";
-    color: #B69B7C;
+    color: #EEB45E;
     margin-right: 10px;
 }
 
@@ -246,8 +231,8 @@ h3 {
 .btn {
     display: inline-block;
     padding: 1rem 2.5rem;
-    background-color: #B69B7C;
-    color: #0B1A2F;
+    background-color: #EEB45E;
+    color: #1F160D;
     text-decoration: none;
     font-weight: 600;
     border: none;
@@ -257,181 +242,39 @@ h3 {
 }
 
 .btn-primary:hover {
-    background-color: #C4AB8F;
+    background-color: #C98545;
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(182,155,124,0.3);
+    box-shadow: 0 5px 15px rgba(238, 180, 94, 0.3);
 }
 
-.btn-outline {
-    display: inline-block;
-    padding: 0.75rem 2rem;
-    border: 1px solid #B69B7C;
-    color: #B69B7C;
-    text-decoration: none;
-    transition: all 0.3s;
-}
-
-.btn-outline:hover {
-    background-color: #B69B7C;
-    color: #0B1A2F;
-}
-
-/* Page Header */
-.page-header {
-    padding: 4rem 0 2rem;
-    text-align: center;
-    border-bottom: 1px solid rgba(182,155,124,0.1);
-}
-
-.header-subtitle {
-    font-size: 1.2rem;
-    color: #B69B7C;
-    max-width: 700px;
-    margin: 1rem auto 0;
-}
-
-/* Doctrine Full Page */
-.doctrine-full {
-    padding: 3rem 0 5rem;
-}
-
-.doctrine-container {
-    max-width: 900px;
-    margin: 0 auto;
-}
-
-.doctrine-item {
-    display: grid;
-    grid-template-columns: 80px 1fr;
-    gap: 2rem;
-    margin-bottom: 4rem;
-    padding-bottom: 2rem;
-    border-bottom: 1px solid rgba(182,155,124,0.1);
-}
-
-.doctrine-number {
-    font-family: 'Playfair Display', serif;
-    font-size: 3rem;
-    font-weight: 600;
-    color: #B69B7C;
-    line-height: 1;
-}
-
-.doctrine-content h2 {
-    margin-bottom: 0.5rem;
-}
-
-.doctrine-principle {
-    font-size: 1.3rem;
-    font-style: italic;
-    color: #B69B7C;
-    margin-bottom: 1.5rem;
-}
-
-.doctrine-body p {
-    margin-bottom: 1rem;
-    opacity: 0.9;
-}
-
-/* Application Form */
-.application-form {
-    padding: 2rem 0 5rem;
-}
-
-.form-container {
-    max-width: 700px;
-    margin: 0 auto;
-}
-
-.form-group {
-    margin-bottom: 2rem;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 0.5rem;
-    color: #B69B7C;
-    font-weight: 600;
-}
-
-.form-group input,
-.form-group select,
-.form-group textarea {
-    width: 100%;
-    padding: 0.75rem;
-    background-color: rgba(255,255,255,0.05);
-    border: 1px solid rgba(182,155,124,0.3);
-    color: #FFFFFF;
-    font-size: 1rem;
-    font-family: 'Lato', sans-serif;
-}
-
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus {
-    outline: none;
-    border-color: #B69B7C;
-}
-
-.form-submit {
-    text-align: center;
-    margin-top: 3rem;
-}
-
-.form-message {
-    margin-top: 1rem;
-    padding: 1rem;
-    border-radius: 4px;
-    display: none;
-}
-
-.form-message.success {
-    display: block;
-    background-color: rgba(76, 175, 80, 0.1);
-    border: 1px solid #4CAF50;
-    color: #4CAF50;
-}
-
-/* Dashboard */
+/* Dashboard and other pages - simplified for now */
 .dashboard {
     padding: 2rem 0 5rem;
-}
-
-.dashboard-container {
-    max-width: 1000px;
-    margin: 0 auto;
-}
-
-.dashboard-table-wrapper {
-    overflow-x: auto;
-    margin-bottom: 2rem;
-    background-color: rgba(255,255,255,0.02);
-    border: 1px solid rgba(182,155,124,0.1);
 }
 
 .dashboard-table {
     width: 100%;
     border-collapse: collapse;
+    background-color: rgba(255,255,255,0.02);
 }
 
 .dashboard-table th {
     padding: 1rem;
     text-align: left;
-    background-color: rgba(182,155,124,0.1);
-    color: #B69B7C;
-    font-weight: 600;
+    background-color: rgba(238, 180, 94, 0.1);
+    color: #EEB45E;
 }
 
 .dashboard-table td {
     padding: 1rem;
-    border-bottom: 1px solid rgba(182,155,124,0.1);
+    border-bottom: 1px solid rgba(238, 180, 94, 0.1);
 }
 
 /* Footer */
 .site-footer {
     padding: 3rem 0;
     text-align: center;
-    border-top: 1px solid rgba(182,155,124,0.1);
+    border-top: 1px solid rgba(238, 180, 94, 0.1);
     margin-top: 3rem;
 }
 
@@ -455,29 +298,7 @@ h3 {
         text-align: center;
     }
     
-    .logo {
-        justify-content: center;
-    }
-    
-    .brain-icon {
-        height: 50px;
-    }
-    
-    .logo-text {
-        font-size: 1.2rem;
-    }
-    
-    .doctrine-item {
-        grid-template-columns: 1fr;
-        gap: 1rem;
-    }
-    
-    .doctrine-number {
-        font-size: 2.5rem;
-    }
-    
-    .hero-video,
-    .hero-icon {
+    .hero-video {
         max-width: 280px;
     }
 }
@@ -487,12 +308,7 @@ h3 {
         font-size: 2.2rem;
     }
     
-    .hero-video,
-    .hero-icon {
+    .hero-video {
         max-width: 220px;
-    }
-    
-    .brain-icon {
-        height: 45px;
     }
 }
