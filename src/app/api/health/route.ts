@@ -5,7 +5,7 @@ export const dynamic = "force-dynamic";
 
 /**
  * Uptime check. Runs one query so monitors see database outages, and the Vercel cron in vercel.json calls it
- * every six hours so a free Supabase project always has activity and is never paused.
+ * once a day (the most the Hobby plan allows) so a free Supabase project always has activity and is never paused.
  */
 export async function GET() {
   const headers = { "Cache-Control": "no-store" };

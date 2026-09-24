@@ -2,7 +2,7 @@
 
 This site needs a server and a database, so it can't run on GitHub Pages. Production runs on **Vercel** (hosting), **Supabase** (Postgres) and **Cloudflare** (DNS for the domain, which stays registered at GoDaddy).
 
-Costs: Vercel's free Hobby plan is for non-commercial use only, and this site sells services, so it needs **Vercel Pro ($20/month)**. Supabase's free plan works to start: the Vercel cron in `vercel.json` queries the database every six hours so the project is never paused for inactivity. The free plan has **no automatic backups**, so move to **Supabase Pro ($25/month, daily backups kept 7 days)** before taking real orders.
+Costs: Vercel's free Hobby plan is for non-commercial use only, and this site sells services, so it needs **Vercel Pro ($20/month)**. Supabase's free plan works to start: the Vercel cron in `vercel.json` queries the database once a day so the project is never paused for inactivity. The free plan has **no automatic backups**, so move to **Supabase Pro ($25/month, daily backups kept 7 days)** before taking real orders.
 
 ## 1. Database (Supabase)
 1. Create a project (or use an existing one) in the **East US (North Virginia)** region. Vercel runs the site in Washington, D.C. (`iad1` in `vercel.json`); if your project is in another region, change `regions` in `vercel.json` to the Vercel region closest to it. The free plan allows two active projects.
