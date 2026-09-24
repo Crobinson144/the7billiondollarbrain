@@ -1,0 +1,39 @@
+@import "tailwindcss";
+
+@theme {
+  --color-navy-950: #070f1c;
+  --color-navy-900: #0b1a2f;
+  --color-navy-800: #13263f;
+  --color-navy-700: #1d3556;
+  --color-gold-300: #f5d49d;
+  --color-gold-400: #eeb45e;
+  --color-gold-500: #c98545;
+  --color-ink: #1b2330;
+  --color-muted: #5b6573;
+  --color-line: #e3e6ea;
+  --color-paper: #fbfaf7;
+  --font-display: "Playfair Display", Georgia, serif;
+  --font-sans: "Lato", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+body { background: var(--color-paper); color: var(--color-ink); font-family: var(--font-sans); }
+h1, h2, h3 { font-family: var(--font-display); }
+:focus-visible { outline: 2px solid var(--color-gold-500); outline-offset: 2px; }
+
+/* Custom utilities (Tailwind v4 requires @utility for classes that other classes @apply). */
+@utility container-page { @apply mx-auto w-full max-w-6xl px-4 sm:px-6; }
+@utility btn { @apply inline-flex items-center justify-center gap-2 rounded-md px-5 py-2.5 text-sm font-bold transition-colors disabled:cursor-not-allowed disabled:opacity-60; }
+@utility btn-gold { @apply btn bg-gold-400 text-navy-900 hover:bg-gold-300; }
+@utility btn-navy { @apply btn bg-navy-900 text-white hover:bg-navy-700; }
+@utility btn-outline { @apply btn border border-navy-900 text-navy-900 hover:bg-navy-900 hover:text-white; }
+@utility card { @apply rounded-xl border border-line bg-white p-6 shadow-sm; }
+@utility field { @apply block w-full rounded-md border border-line bg-white px-3 py-2 text-sm text-ink shadow-sm focus:border-gold-500 focus:outline-none; }
+@utility label { @apply mb-1 block text-sm font-bold text-ink; }
+@utility section-title { @apply text-3xl text-navy-900 sm:text-4xl; }
+@utility eyebrow { @apply text-xs font-bold uppercase tracking-widest text-gold-500; }
+@utility admin-table {
+  @apply w-full text-left text-sm;
+  & th { @apply border-b border-line px-3 py-2 font-bold text-muted; }
+  & td { @apply border-b border-line px-3 py-2 align-top; }
+}

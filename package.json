@@ -1,0 +1,45 @@
+{
+  "name": "the7billiondollarbrain",
+  "version": "1.0.0",
+  "private": true,
+  "description": "The 7 Billion Dollar Brain consulting firm website: services, booking, store, subscriptions, members area and admin panel.",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "tsx scripts/migrate.ts",
+    "db:seed": "tsx scripts/seed.ts",
+    "admin:create": "tsx scripts/create-admin.ts",
+    "db:check": "tsx scripts/db-check.ts"
+  },
+  "dependencies": {
+    "@vercel/functions": "3.9.9",
+    "bcryptjs": "2.4.3",
+    "drizzle-orm": "0.45.3",
+    "google-auth-library": "9.15.1",
+    "next": "15.5.26",
+    "pg": "8.16.3",
+    "react": "19.1.1",
+    "react-dom": "19.1.1",
+    "server-only": "0.0.1",
+    "stripe": "17.7.0",
+    "zod": "3.25.76"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "4.1.13",
+    "@types/bcryptjs": "2.4.6",
+    "@types/node": "22.18.6",
+    "@types/pg": "8.15.5",
+    "@types/react": "19.1.13",
+    "@types/react-dom": "19.1.9",
+    "drizzle-kit": "0.31.4",
+    "postcss": "8.5.28",
+    "tailwindcss": "4.1.13",
+    "tsx": "4.20.5",
+    "typescript": "5.9.2",
+    "vitest": "3.2.4"
+  }
+}
