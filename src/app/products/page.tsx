@@ -13,7 +13,7 @@ export const metadata: Metadata = { title: "Products" };
 function Price({ p }: { p: Product }) {
   return (
     <p className="mt-3 text-lg font-bold text-navy-900">
-      {p.priceCents != null ? formatCents(p.priceCents) : "Free quote"}
+      {p.priceCents === 0 ? "Free" : p.priceCents != null ? formatCents(p.priceCents) : p.membersOnly && p.includedWithPremium ? "Education Pass only" : "Free quote"}
       {p.priceNote && <span className="ml-2 text-sm font-normal text-muted">({p.priceNote})</span>}
     </p>
   );
@@ -46,7 +46,9 @@ export default async function ProductsPage() {
                 <p className="mt-2 flex-1 text-sm text-muted">{p.description}</p>
                 <Price p={p} />
                 {p.includedWithPremium && <p className="text-xs text-muted">Included with the Education Pass</p>}
-                {p.priceCents != null && <div className="mt-4"><AddToCartButton productId={p.id} name={p.name} priceCents={p.priceCents} /></div>}
+                {p.priceCents === 0 ? (
+                  <Link href={user ? `/products/${p.slug}` : `/signup?next=${encodeURIComponent(`/products/${p.slug}`)}`} className="btn-navy mt-4">{user ? "Get it free" : "Create a free account to get it"}</Link>
+                ) : p.priceCents != null && <div className="mt-4"><AddToCartButton productId={p.id} name={p.name} priceCents={p.priceCents} /></div>}
               </article>
             ))}
           </div>

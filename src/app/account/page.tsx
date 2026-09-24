@@ -4,15 +4,18 @@ import { desc, eq } from "drizzle-orm";
 import { db } from "@/db";
 import { bookings, orders, plans, subscriptions } from "@/db/schema";
 import { requireUser } from "@/lib/auth";
-import { logout } from "@/lib/actions/auth";
+import { logout, resendVerification } from "@/lib/actions/auth";
+import { ResendVerification } from "@/components/AccountForms";
+import { integrations } from "@/lib/env";
 import { formatCents } from "@/lib/money";
 import { formatSlot } from "@/lib/schedule";
 
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = { title: "My account" };
 
-export default async function AccountPage() {
+export default async function AccountPage({ searchParams }: { searchParams: Promise<{ reset?: string }> }) {
   const user = await requireUser("/account");
+  const { reset } = await searchParams;
   const [myOrders, mySubs, myBookings] = await Promise.all([
     db.select().from(orders).where(eq(orders.userId, user.id)).orderBy(desc(orders.createdAt)).limit(50),
     db.select({ sub: subscriptions, plan: plans }).from(subscriptions).innerJoin(plans, eq(plans.id, subscriptions.planId))
@@ -37,6 +40,9 @@ export default async function AccountPage() {
           <form action={logout}><button className="btn text-muted hover:text-navy-900">Log out</button></form>
         </div>
       </div>
+
+      {reset && <p role="status" className="mt-6 rounded-lg bg-green-50 p-4 text-sm text-green-900">Your password was changed. Any other devices were signed out.</p>}
+      {integrations.email() && !user.emailVerifiedAt && <ResendVerification email={user.email} action={resendVerification} />}
 
       <section className="mt-10">
         <h2 className="text-2xl text-navy-900">Subscriptions</h2>

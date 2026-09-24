@@ -16,10 +16,10 @@ async function main() {
   const passwordHash = await hashPassword(password);
   const existing = await db.select().from(schema.users).where(eq(schema.users.email, normalized));
   if (existing.length) {
-    await db.update(schema.users).set({ role: "ADMIN", passwordHash, name }).where(eq(schema.users.email, normalized));
+    await db.update(schema.users).set({ role: "ADMIN", passwordHash, name, emailVerifiedAt: new Date() }).where(eq(schema.users.email, normalized));
     console.log(`Updated ${normalized} to admin.`);
   } else {
-    await db.insert(schema.users).values({ email: normalized, name, passwordHash, role: "ADMIN" });
+    await db.insert(schema.users).values({ email: normalized, name, passwordHash, role: "ADMIN", emailVerifiedAt: new Date() });
     console.log(`Created admin ${normalized}.`);
   }
   await pool.end();

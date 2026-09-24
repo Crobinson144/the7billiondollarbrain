@@ -39,12 +39,16 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
         <ul className="mt-6 list-disc space-y-2 pl-6">{features.map((f) => <li key={f}>{f}</li>)}</ul>
       )}
       <p className="mt-6 text-2xl font-bold text-navy-900">
-        {p.priceCents != null ? formatCents(p.priceCents) : "Free quote"}
+        {p.priceCents === 0 ? "Free with an account" : p.priceCents != null ? formatCents(p.priceCents) : p.membersOnly && p.includedWithPremium ? "Included with the Education Pass" : "Free quote"}
         {p.priceNote && <span className="ml-2 text-base font-normal text-muted">({p.priceNote})</span>}
       </p>
       <div className="mt-6">
         {hasAccess && p.contentUrl ? (
           <a href={p.contentUrl} className="btn-gold" target="_blank" rel="noopener noreferrer">{p.kind === "VIDEO" ? "Watch now" : "Read now"}</a>
+        ) : hasAccess ? (
+          <p className="text-muted">You have access. The download link will appear here as soon as it's published.</p>
+        ) : p.priceCents === 0 ? (
+          <Link href={`/signup?next=${encodeURIComponent(`/products/${p.slug}`)}`} className="btn-gold">Create a free account to get it</Link>
         ) : p.priceCents == null ? (
           <Link href={`/contact?topic=${encodeURIComponent("Quote: " + p.name)}`} className="btn-gold">Request a quote</Link>
         ) : p.kind === "PACKAGE" ? (

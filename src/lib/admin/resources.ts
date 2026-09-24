@@ -31,7 +31,7 @@ export const RESOURCES = {
         { value: "ADDON", label: "Add-on" }, { value: "QUOTE", label: "Quote only" }] },
       { name: "description", label: "Description", type: "textarea" },
       { name: "features", label: "What's included (one per line)", type: "textarea" },
-      { name: "priceCents", label: "Price (USD)", type: "money", nullable: true, help: "Leave blank for quote-only items." },
+      { name: "priceCents", label: "Price (USD)", type: "money", nullable: true, help: "Leave blank for quote-only items. Enter 0 for a free guide (any member with a free account can open it)." },
       { name: "priceNote", label: "Price note", type: "text", help: "e.g. Monthly subscription not included" },
       { name: "allowInstallments", label: "Allow 3, 6 or 9 monthly installments", type: "boolean" },
       { name: "contentUrl", label: "Content link (eBooks and videos)", type: "text", help: "Only shown to people who bought it or have premium access." },

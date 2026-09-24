@@ -13,7 +13,8 @@
     "db:migrate": "tsx scripts/migrate.ts",
     "db:seed": "tsx scripts/seed.ts",
     "admin:create": "tsx scripts/create-admin.ts",
-    "db:check": "tsx scripts/db-check.ts"
+    "db:check": "tsx scripts/db-check.ts",
+    "db:content-updates": "tsx scripts/apply-content-updates.ts"
   },
   "dependencies": {
     "@vercel/functions": "3.9.9",

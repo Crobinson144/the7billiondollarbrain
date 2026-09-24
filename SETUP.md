@@ -21,7 +21,7 @@ Costs: Vercel's free Hobby plan is for non-commercial use only, and this site se
    ```
    `db:check` should print PASS on every line. Then set `DATABASE_URL` to the **transaction pooler** string and run `npm run db:check` again; that is the connection the live site uses.
 5. The site uses its own logins, not Supabase Auth, and never uses Supabase's auto-generated REST API. Row-level security is turned on for every table by the migrations, so that API can't read anything. You can also turn it off entirely under **Project Settings -> Data API**.
-6. After any schema change, run `npm run db:migrate` (session pooler string) before deploying.
+6. After any schema change, update the database **before** pushing the code: from WSL in the repo folder run `bash scripts/deploy-db.sh`. It asks for the database password and runs migrations, adds new catalog drafts, applies copy updates and checks both connection strings.
 
 ## 2. Hosting (Vercel)
 1. Review the `rebuild-2026-09` branch on GitHub and merge it into `main`. The old GitHub Pages site stops working at that point, so do steps 2-5 and the domain section right after.
@@ -41,10 +41,15 @@ The domain is registered at GoDaddy but its DNS is already managed in Cloudflare
 4. In Cloudflare **SSL/TLS -> Overview**, use **Full (strict)**.
 5. Wait for Vercel to show the domain as valid (usually minutes), then load the site and `/api/health`.
 
+## Legal details and scheduled jobs
+1. In Vercel → Settings → Environment Variables, set `BUSINESS_LEGAL_NAME`, `BUSINESS_MAILING_ADDRESS`, `BUSINESS_GOVERNING_STATE` and `BUSINESS_VENUE_COUNTY`. They appear on the Terms, Privacy and Refund pages and in the footer. Stripe expects a business address and contact details on the site before it activates payments.
+2. Set `CRON_SECRET` to a long random string (for example the output of `openssl rand -hex 32`). Without it the daily job (yearly renewal reminders and data cleanup) refuses to run.
+3. Have an attorney review `/terms`, `/privacy` and `/refunds` before taking payments. Change `TERMS_VERSION` in `src/lib/legal.ts` whenever they change materially.
+
 ## 3. Payments (Stripe)
 1. In the Stripe dashboard, copy the secret key into `STRIPE_SECRET_KEY`.
 2. Add a webhook endpoint `https://the7billiondollarbrain.com/api/stripe/webhook` with these events: `checkout.session.completed`, `checkout.session.async_payment_succeeded`, `checkout.session.async_payment_failed`, `checkout.session.expired`, `customer.subscription.updated`, `customer.subscription.deleted`, `charge.refunded`. Copy its signing secret into `STRIPE_WEBHOOK_SECRET`.
-3. Turn on the customer portal (Settings → Billing → Customer portal) so members can manage cards and cancel subscriptions from **Manage billing**.
+3. Turn on the customer portal (Settings → Billing → Customer portal) so members can manage cards and cancel subscriptions from **Manage billing**. Set cancellations to **at the end of the billing period** (that's what the Terms promise), and turn on Stripe's emailed receipts.
 4. Prices come from the admin panel; there's nothing to create in Stripe. Installments bill monthly and stop automatically after the last payment.
 
 ## 4. Business calendar (Google Calendar)
@@ -55,7 +60,9 @@ The domain is registered at GoDaddy but its DNS is already managed in Cloudflare
 Bookings then skip times that are busy on that calendar, and each new booking is added to it. Cancelling a booking in the admin panel removes the event.
 
 ## 5. Email (Resend, optional)
-Verify the domain at resend.com, then set `RESEND_API_KEY`, `EMAIL_FROM` and `ADMIN_NOTIFY_EMAIL`. Customers get booking confirmations; you get new bookings and contact messages.
+Verify the domain at resend.com, then set `RESEND_API_KEY`, `EMAIL_FROM` and `ADMIN_NOTIFY_EMAIL`. Before verifying, fix the domain's SPF record in Cloudflare so it includes Resend (and your Microsoft 365 mail, if that's what sends from info@).
+
+Turning email on also turns on: email confirmation for new members (checkout waits until the address is confirmed), "Forgot password" links, subscription confirmation and cancellation emails, and the yearly renewal reminder. Customers get booking confirmations; you get new bookings and contact messages.
 
 ## 6. Live chat (optional)
 Create a free Crisp or Tawk.to account and set `NEXT_PUBLIC_CRISP_WEBSITE_ID`, or `NEXT_PUBLIC_TAWK_PROPERTY_ID` and `NEXT_PUBLIC_TAWK_WIDGET_ID`. Answer chats from their mobile apps.

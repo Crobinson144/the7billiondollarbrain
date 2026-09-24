@@ -16,9 +16,11 @@ Website for The 7 Billion Dollar Brain consulting firm: business services with o
 | Members | Basic accounts are free; any subscription that grants premium unlocks premium. The members library opens purchased items, and everything marked "included with premium" |
 | About / Contact | Editable About copy and team; live chat, phone, email and a contact form |
 | Search | Full-text search across services, products, plans and page copy |
+| Accounts | Sign up (with Terms consent), log in, forgot / reset password, email confirmation (when email is on) |
+| Legal | Terms of Service, Privacy Policy, Refund and Cancellation Policy, Accessibility; consent is recorded at signup and checkout |
 | Admin (`/admin`) | Bookings, messages, orders, members (tier and role), and create / edit / delete for services, products, plans, team and all page text |
 
-The investment and Business in a Box pages are behind a members-only feature flag (`INVESTMENTS_ENABLED`, off by default). The tradeline packages are seeded as unpublished drafts; publish them from the admin panel when ready.
+The investment and Business in a Box pages are behind a members-only feature flag (`INVESTMENTS_ENABLED`, off by default). The business credit packages and the starter eBook and video catalog are seeded as unpublished drafts; publish each one from the admin panel once it's reviewed and its file or video link is added.
 
 ## Run locally
 

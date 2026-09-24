@@ -4,8 +4,10 @@ import { and, eq, inArray } from "drizzle-orm";
 import { db } from "@/db";
 import { orderItems, orders, plans, processedEvents, products, subscriptions, users, type Plan } from "@/db/schema";
 import { env } from "./env";
-import { fixedTermCancelAt, isInstallmentCount, splitInstallments } from "./money";
+import { fixedTermCancelAt, formatCents, isInstallmentCount, splitInstallments } from "./money";
+import { autoRenewalDisclosure, fixedTermDisclosure, TERMS_VERSION } from "./legal";
 import type { CurrentUser } from "./auth";
+import { sendPlanEmail } from "./subscription-emails";
 
 let client: Stripe | null = null;
 export function getStripe(): Stripe {
@@ -37,6 +39,7 @@ export async function createProductCheckout(user: CurrentUser, lines: CartLine[]
   const items = lines.map((l) => {
     const p = byId.get(l.productId)!;
     if (p.priceCents == null) throw new Error(`${p.name} is quote-only. Please request a quote.`);
+    if (p.priceCents === 0) throw new Error(`${p.name} is free. Open it from the members library instead.`);
     if (p.membersOnly && user.tier !== "PREMIUM" && user.role !== "ADMIN") throw new Error(`${p.name} is for premium members.`);
     const quantity = p.kind === "ADDON" ? Math.min(Math.max(1, Math.floor(l.quantity)), 10) : 1;
     return { product: p, quantity, priceCents: p.priceCents };
@@ -54,7 +57,10 @@ export async function createProductCheckout(user: CurrentUser, lines: CartLine[]
   const common = {
     customer,
     client_reference_id: order.id,
-    metadata: { orderId: order.id, userId: user.id, kind: "order", installments: String(installments) },
+    metadata: { orderId: order.id, userId: user.id, kind: "order", installments: String(installments), termsVersion: TERMS_VERSION },
+    custom_text: { submit: { message: installments > 1
+      ? `${installments} monthly payments; billing stops automatically after the last one. By paying you agree to our Terms of Service and Refund Policy (${env.appUrl}/terms).`
+      : `By paying you agree to our Terms of Service and Refund Policy (${env.appUrl}/terms).` } },
     success_url: `${env.appUrl}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${env.appUrl}/checkout/cancel`,
   } satisfies Partial<Stripe.Checkout.SessionCreateParams>;
@@ -112,7 +118,10 @@ export async function createPlanCheckout(user: CurrentUser, plan: Plan): Promise
         product_data: { name: plan.name },
       },
     }],
-    metadata: { kind: "plan", planId: plan.id, userId: user.id },
+    metadata: { kind: "plan", planId: plan.id, userId: user.id, termsVersion: TERMS_VERSION },
+    custom_text: { submit: { message: (plan.termMonths
+      ? fixedTermDisclosure(formatCents(plan.monthlyPriceCents), plan.termMonths)
+      : autoRenewalDisclosure(formatCents(plan.monthlyPriceCents))) + ` Terms: ${env.appUrl}/terms` } },
     subscription_data: {
       metadata: { kind: "plan", planId: plan.id, userId: user.id, payments: plan.termMonths ? String(plan.termMonths) : "" },
     },
@@ -176,7 +185,10 @@ export async function handleStripeEvent(event: Stripe.Event): Promise<void> {
           let sub: Stripe.Subscription = await getStripe().subscriptions.retrieve(subId);
           const payments = Number(sub.metadata.payments || 0);
           sub = await applyFixedTerm(sub, payments);
-          if (sub.metadata.kind === "plan") await syncPlanSubscription(sub);
+          if (sub.metadata.kind === "plan") {
+            await syncPlanSubscription(sub);
+            if (sub.metadata.userId && sub.metadata.planId) await sendPlanEmail("confirmation", sub.metadata.userId, sub.metadata.planId);
+          }
         }
         break;
       }
@@ -196,7 +208,14 @@ export async function handleStripeEvent(event: Stripe.Event): Promise<void> {
       case "customer.subscription.updated":
       case "customer.subscription.deleted": {
         const sub = event.data.object as Stripe.Subscription;
-        if (sub.metadata.kind === "plan") await syncPlanSubscription(sub);
+        if (sub.metadata.kind === "plan") {
+          await syncPlanSubscription(sub);
+          // A member cancelling from the billing portal (open-ended plans only; fixed terms end on their own).
+          const previous = (event.data as { previous_attributes?: Partial<Stripe.Subscription> }).previous_attributes;
+          const cancelledNow = event.type === "customer.subscription.updated" && sub.cancel_at_period_end && previous?.cancel_at_period_end === false;
+          if (cancelledNow && !sub.metadata.payments && sub.metadata.userId && sub.metadata.planId)
+            await sendPlanEmail("cancelled", sub.metadata.userId, sub.metadata.planId, toDate(sub.current_period_end));
+        }
         break;
       }
       case "charge.refunded": {

@@ -13,6 +13,7 @@ export const tierEnum = pgEnum("tier", ["BASIC", "PREMIUM"]);
 export const productKindEnum = pgEnum("product_kind", ["EBOOK", "VIDEO", "PACKAGE", "ADDON", "QUOTE"]);
 export const orderStatusEnum = pgEnum("order_status", ["PENDING", "PAID", "FAILED", "REFUNDED"]);
 export const bookingStatusEnum = pgEnum("booking_status", ["REQUESTED", "CONFIRMED", "CANCELLED"]);
+export const authTokenPurposeEnum = pgEnum("auth_token_purpose", ["VERIFY_EMAIL", "RESET_PASSWORD"]);
 
 export const users = pgTable("users", {
   id: id(),
@@ -24,9 +25,41 @@ export const users = pgTable("users", {
   /** Admin-set override; null means the tier follows active subscriptions. */
   tierOverride: tierEnum("tier_override"),
   stripeCustomerId: text("stripe_customer_id").unique(),
+  /** Set when the member follows the link in the verification email. */
+  emailVerifiedAt: timestamp("email_verified_at", { withTimezone: true }),
+  /** When the member last accepted the Terms and Privacy Policy, and which version. */
+  termsAcceptedAt: timestamp("terms_accepted_at", { withTimezone: true }),
+  termsVersion: text("terms_version"),
   createdAt: createdAt(),
   updatedAt: updatedAt(),
 }).enableRLS();
+
+/** Single-use email links (verification and password reset). Only a SHA-256 of the token is stored. */
+export const authTokens = pgTable("auth_tokens", {
+  id: id(),
+  userId: text("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  purpose: authTokenPurposeEnum("purpose").notNull(),
+  tokenHash: text("token_hash").notNull().unique(),
+  expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
+  usedAt: timestamp("used_at", { withTimezone: true }),
+  createdAt: createdAt(),
+}, (t) => [index("auth_tokens_user_idx").on(t.userId, t.purpose)]).enableRLS();
+
+/**
+ * Proof of consent (Terms at signup and checkout, auto-renewal terms for open-ended plans).
+ * Kept so the business can show what a customer agreed to and when.
+ */
+export const consents = pgTable("consents", {
+  id: id(),
+  userId: text("user_id").references(() => users.id, { onDelete: "set null" }),
+  email: text("email").notNull(),
+  kind: text("kind").notNull(),
+  termsVersion: text("terms_version").notNull(),
+  detail: text("detail").notNull().default(""),
+  ip: text("ip").notNull().default(""),
+  userAgent: text("user_agent").notNull().default(""),
+  createdAt: createdAt(),
+}, (t) => [index("consents_user_idx").on(t.userId)]).enableRLS();
 
 export const sessions = pgTable("sessions", {
   id: id(),
@@ -117,6 +150,8 @@ export const subscriptions = pgTable("subscriptions", {
   status: text("status").notNull(),
   currentPeriodEnd: timestamp("current_period_end", { withTimezone: true }),
   cancelAt: timestamp("cancel_at", { withTimezone: true }),
+  /** Last yearly reminder of the renewal terms (required for auto-renewing plans in some states). */
+  renewalReminderSentAt: timestamp("renewal_reminder_sent_at", { withTimezone: true }),
   createdAt: createdAt(),
   updatedAt: updatedAt(),
 }, (t) => [index("subscriptions_user_idx").on(t.userId)]).enableRLS();

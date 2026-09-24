@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { publicEnv } from "@/lib/env";
+import { business, publicEnv } from "@/lib/env";
 
 export function SiteFooter() {
   return (
@@ -21,10 +21,17 @@ export function SiteFooter() {
           <p className="font-bold text-white">Contact</p>
           <p className="mt-2"><a href={`mailto:${publicEnv.contactEmail}`} className="text-gold-400 hover:text-gold-300">{publicEnv.contactEmail}</a></p>
           {publicEnv.contactPhone && <p><a href={`tel:${publicEnv.contactPhone}`} className="hover:text-gold-300">{publicEnv.contactPhone}</a></p>}
+          {business.mailingAddress && <p className="mt-1 text-white/60">{business.mailingAddress}</p>}
         </div>
       </div>
       <div className="border-t border-white/10 py-4 text-center text-xs text-white/50">
-        © {new Date().getFullYear()} The 7 Billion Dollar Brain™. All rights reserved.
+        <nav aria-label="Legal" className="mb-2 flex flex-wrap justify-center gap-x-4 gap-y-1">
+          <Link href="/terms" className="hover:text-gold-300">Terms of Service</Link>
+          <Link href="/privacy" className="hover:text-gold-300">Privacy Policy</Link>
+          <Link href="/refunds" className="hover:text-gold-300">Refunds and cancellations</Link>
+          <Link href="/accessibility" className="hover:text-gold-300">Accessibility</Link>
+        </nav>
+        © {new Date().getFullYear()} {business.legalName}{business.legalName === business.tradingName ? "™" : ""}. All rights reserved.
       </div>
     </footer>
   );

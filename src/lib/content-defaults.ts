@@ -24,9 +24,9 @@ export const CONTENT_DEFAULTS: Record<string, { label: string; body: string }> =
   "about.body": {
     label: "About us",
     body: [
-      "We are an eclectic team with over 100 years of combined business expertise. Our consultants, researchers and idea specialists are some of the most highly trained professionals in the industry.",
-      "Because we are a homegrown and modern business, we are much more attentive to your needs and concerns. We specialize in helping small businesses thrive, gain the knowledge needed for lasting success, and revitalize their missions.",
-      "Our team combines classically trained professionals with people who have real-world experience, which gives you the balance of both to increase your chances of success. If your business is failing or about to fail, we can help.",
+      "We are a homegrown, modern consulting firm built on 33 years of real-world business experience. Our founder started his first business at 14 and has been starting, running, advising and turning around businesses ever since.",
+      "Our consultants, researchers and idea specialists combine classical training with hands-on experience, which gives you the balance of both to increase your chances of success.",
+      "Because we are small and modern, we are more attentive to your needs and concerns. We specialize in helping small businesses thrive, gain the knowledge needed for lasting success, and revitalize their missions. If your business is failing or about to fail, we can help.",
       "We look forward to assisting you. Thank you for considering The 7 Billion Dollar Brain Consulting Firm.",
     ].join("\n\n"),
   },

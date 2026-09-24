@@ -3,12 +3,14 @@
 import Link from "next/link";
 import { useState } from "react";
 import { startCheckout, useCart } from "@/components/cart";
+import { TermsCheckbox } from "@/components/BuyButtons";
 import { formatCents } from "@/lib/money";
 
 export function CartView() {
   const { items, setQuantity, remove } = useCart();
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
+  const [agree, setAgree] = useState(false);
   if (items.length === 0) return <p className="mt-6 text-muted">Your cart is empty. <Link href="/products" className="font-bold underline">Browse products</Link>.</p>;
   const total = items.reduce((s, i) => s + i.priceCents * i.quantity, 0);
   return (
@@ -29,10 +31,11 @@ export function CartView() {
       <p className="mt-4 text-right text-xl font-bold">Total: {formatCents(total)}</p>
       <p className="mt-1 text-right text-xs text-muted">Prices are confirmed at checkout.</p>
       {error && <p role="alert" className="mt-3 text-sm text-red-700">{error}</p>}
-      <div className="mt-5 text-right">
-        <button type="button" className="btn-gold" disabled={busy} onClick={async () => {
+      <div className="mt-5 flex flex-col items-end gap-3">
+        <TermsCheckbox id="agree-cart" checked={agree} onChange={setAgree} />
+        <button type="button" className="btn-gold" disabled={busy || !agree} onClick={async () => {
           setBusy(true); setError("");
-          const msg = await startCheckout("/api/checkout", { lines: items.map((i) => ({ productId: i.productId, quantity: i.quantity })), installments: 1 }, "/cart");
+          const msg = await startCheckout("/api/checkout", { lines: items.map((i) => ({ productId: i.productId, quantity: i.quantity })), installments: 1, agreeTerms: true }, "/cart");
           if (msg) { setError(msg); setBusy(false); }
         }}>{busy ? "Redirecting…" : "Check out"}</button>
       </div>
